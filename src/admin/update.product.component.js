@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { isAuthenticated } from "../auth";
-import { getCategories, updateProduct } from "./api.request";
+import { getCategories, updateProduct, getProduct } from "./api.request";
 import Layout from "../components/layout.component";
 import { Redirect } from "react-router-dom";
 
-const UpdateProduct = () => {
+const UpdateProduct = ({ match }) => {
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -62,7 +62,7 @@ const UpdateProduct = () => {
         if(data.error) {
           setValues({ ...values, error: data.error });
         } else {
-          setValues({ ...values, categories: data, form_data: new FormData() })
+          setValues({ categories: data, form_data: new FormData() })
         }
       });
     };
@@ -86,12 +86,22 @@ const UpdateProduct = () => {
     e.preventDefault();
     setValues({ ...values, error: '', loading: true });
 
-    updateProduct(match.parame.productId, user._id, token, form_data)
+    updateProduct(match.params.productId, user._id, token, form_data)
     .then(data => {
       if(data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ ...values, name: '', description: '', photo: '', price: '', quantity: '', loading: false, error: false, redirect_to_profile: true, updated_product: data.name });
+        setValues({ 
+          ...values, 
+          name: '', description: '', 
+          photo: '', 
+          price: '', 
+          quantity: '', 
+          loading: false, 
+          error: false, 
+          redirect_to_profile: true, 
+          updated_product: data.name 
+        });
       }
     })
   };
@@ -168,9 +178,9 @@ const UpdateProduct = () => {
   );
 
   const redirectUser = () => {
-    if (redirectToProfile) {
+    if (redirect_to_profile) {
         if (!error) {
-            return <Redirect to="/" />;
+            return <Redirect to="/admin/products" />;
         }
     }
   };
