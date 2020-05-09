@@ -68,14 +68,14 @@ const Shop = () => {
   useEffect(() => {
     init();
     loadFilteredResults(skip, limit, shopFilters.filters);
-  }, []);
+  });
 
   const handleFilters = (filters, filterBy) => {
     // console.log('Shop', filters, filterBy);
     const newFilters = { ...shopFilters };
     newFilters.filters[filterBy] = filters;
 
-    if(filterBy == "price") {
+    if(filterBy === "price") {
       let price_values = handlePrice(filters);
       newFilters.filters[filterBy] = price_values;
     }
