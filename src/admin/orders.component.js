@@ -66,7 +66,7 @@ const Orders = () => {
     <div className="form-group">
       <h3 className="mark mb-4">Status: { order.status }</h3>
       <select className="form-control"
-              onChange={ () => handleChange(order._id) }>
+              onChange={ e => handleChange(e, order._id) }>
         <option>Update status</option>
         { status.map(item => (<option key={ item } value={ item }>{ item }</option>))}
       </select>
